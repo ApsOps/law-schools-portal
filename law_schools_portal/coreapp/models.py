@@ -31,7 +31,7 @@ class LawSchool(models.Model):
     name = models.CharField(max_length=500)
     email = models.EmailField(blank=True)
     website = models.URLField(blank=True)
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, blank=True)
     fb_link = models.URLField(blank=True)
     twitter_link = models.URLField(blank=True)
     linkedin_link = models.URLField(blank=True)

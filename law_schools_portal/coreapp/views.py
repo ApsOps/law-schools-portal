@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, EntryForm
 from django.contrib.auth.models import User
+from .models import LawSchool
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 
@@ -50,3 +51,12 @@ class LogOutView(views.LoginRequiredMixin, views.MessageMixin,
         logout(request)
         self.messages.success("You've been successfully logged out.")
         return super(LogOutView, self).get(request, *args, **kwargs)
+
+
+class WorkView(views.LoginRequiredMixin, views.FormValidMessageMixin,
+               generic.CreateView):
+    form_class = EntryForm
+    form_valid_message = "Data added successfully."
+    model = LawSchool
+    success_url = reverse_lazy('work')
+    template_name = "work/entry.html"

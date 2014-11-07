@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
+from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
+from .models import LawSchool
 
 
 class RegistrationForm(UserCreationForm):
@@ -29,5 +30,19 @@ class LoginForm(AuthenticationForm):
             'password',
             ButtonHolder(
                 Submit('login', 'Login', css_class='btn-primary btn-hg')
+            )
+        )
+
+
+class EntryForm(forms.ModelForm):
+    class Meta:
+        model = LawSchool
+
+    def __init__(self, *args, **kwargs):
+        super(EntryForm, self).__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.layout.append(ButtonHolder(
+            Submit('save', 'Save', css_class='btn-primary btn-hg')
             )
         )

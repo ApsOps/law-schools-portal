@@ -1,0 +1,10 @@
+{% extends '_layouts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Work | {{ block.super }}{% endblock %}
+
+{% block headline %}<h3>Add a Law School</h3>{% endblock %}
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}

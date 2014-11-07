@@ -3,5 +3,7 @@
 {% block headline %}<h1>Law Schools Info Portal</h1>{% endblock headline %}
 
 {% block content %}
-<p>Howdy{% if user.is_authenticated %} {{ user.username }}{% endif %}!</p>
+<p>Howdy{% if user.is_authenticated %} {{ user.username }}!</p>
+<a href="/work/">Let's get to work, shall we?</a>
+{% endif %}
 {% endblock %}

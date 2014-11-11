@@ -14,6 +14,8 @@ class LawSchool(models.Model):
         return self.name
 
     name = models.CharField(max_length=500)
+    city = models.ForeignKey(City)
+    country = models.ForeignKey(Country)
     email = models.EmailField(blank=True)
     website = models.URLField(blank=True)
     phone = models.CharField(max_length=15, blank=True)
@@ -29,5 +31,3 @@ class LawSchool(models.Model):
                                      blank=True, null=True)
     postal_code = models.IntegerField("Postal Code", max_length=10,
                                       blank=True, null=True)
-    city = models.ForeignKey(City)
-    country = models.ForeignKey(Country)

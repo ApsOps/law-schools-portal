@@ -43,9 +43,8 @@ class EntryForm(autocomplete_light.ModelForm):
         super(EntryForm, self).__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
+        self.helper.form_class = 'form-inline'
+        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
         self.helper.layout.append(ButtonHolder(
             Submit('save', 'Save', css_class='btn-primary btn-hg')
             )

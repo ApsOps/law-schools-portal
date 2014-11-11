@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django import forms
+import autocomplete_light
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
 from .models import LawSchool
@@ -34,9 +34,10 @@ class LoginForm(AuthenticationForm):
         )
 
 
-class EntryForm(forms.ModelForm):
+class EntryForm(autocomplete_light.ModelForm):
     class Meta:
         model = LawSchool
+        autocomplete_fields = ('city', 'country')
 
     def __init__(self, *args, **kwargs):
         super(EntryForm, self).__init__(*args, **kwargs)

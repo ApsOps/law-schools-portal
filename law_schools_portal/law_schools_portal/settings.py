@@ -28,6 +28,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'autocomplete_light',  # Added before admin for supporting admin pages
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

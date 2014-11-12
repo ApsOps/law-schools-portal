@@ -77,6 +77,11 @@ class ExportTemplateView(views.LoginRequiredMixin,
                          views.StaffuserRequiredMixin, generic.TemplateView):
     template_name = "work/export.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(ExportTemplateView, self).get_context_data(**kwargs)
+        context['lawschools_count'] = LawSchool.objects.all().count()
+        return context
+
 
 class ExportView(views.LoginRequiredMixin, views.StaffuserRequiredMixin,
                  generic.View):

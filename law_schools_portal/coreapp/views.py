@@ -68,6 +68,10 @@ class WorkView(views.LoginRequiredMixin, views.FormValidMessageMixin,
     success_url = reverse_lazy('work')
     template_name = "work/entry.html"
 
+    def form_valid(self, form):
+        form.instance.submitted_by = self.request.user
+        return super(WorkView, self).form_valid(form)
+
 
 class ExportTemplateView(views.LoginRequiredMixin,
                          views.StaffuserRequiredMixin, generic.TemplateView):

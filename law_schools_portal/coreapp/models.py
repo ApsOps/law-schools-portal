@@ -1,5 +1,6 @@
 from django.db import models
 from cities_light.models import City, Country
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -31,3 +32,4 @@ class LawSchool(models.Model):
                                      blank=True, null=True)
     postal_code = models.IntegerField("Postal Code", max_length=10,
                                       blank=True, null=True)
+    submitted_by = models.ForeignKey(User, null=True)

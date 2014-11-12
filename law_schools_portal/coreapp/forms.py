@@ -38,6 +38,7 @@ class EntryForm(autocomplete_light.ModelForm):
     class Meta:
         model = LawSchool
         autocomplete_fields = ('city', 'country')
+        exclude = ('submitted_by',)
 
     def __init__(self, *args, **kwargs):
         super(EntryForm, self).__init__(*args, **kwargs)

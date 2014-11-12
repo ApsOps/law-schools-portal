@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 from django.views import generic
 from .forms import RegistrationForm, LoginForm, EntryForm
 from django.contrib.auth.models import User
@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 
 from braces import views
+import csv
 
 # Create your views here.
 
@@ -53,6 +54,12 @@ class LogOutView(views.LoginRequiredMixin, views.MessageMixin,
         return super(LogOutView, self).get(request, *args, **kwargs)
 
 
+def workRedirectView(request):
+    if request.user.is_staff:
+        return ExportTemplateView.as_view()(request)
+    return WorkView.as_view()(request)
+
+
 class WorkView(views.LoginRequiredMixin, views.FormValidMessageMixin,
                generic.CreateView):
     form_class = EntryForm
@@ -60,3 +67,35 @@ class WorkView(views.LoginRequiredMixin, views.FormValidMessageMixin,
     model = LawSchool
     success_url = reverse_lazy('work')
     template_name = "work/entry.html"
+
+
+class ExportTemplateView(views.LoginRequiredMixin,
+                         views.StaffuserRequiredMixin, generic.TemplateView):
+    template_name = "work/export.html"
+
+
+class ExportView(views.LoginRequiredMixin, views.StaffuserRequiredMixin,
+                 generic.View):
+
+    csv_filename = 'csvfile.csv'
+
+    def get_csv_filename(self):
+        return self.csv_filename
+
+    def render_to_csv(self, field_names, queryset):
+        response = HttpResponse(content_type='text/csv')
+        cd = 'attachment; filename="{0}"'.format(self.get_csv_filename())
+        response['Content-Disposition'] = cd
+
+        writer = csv.writer(response)
+        writer.writerow(field_names)
+        for obj in queryset:
+            writer.writerow([getattr(obj, field) for field in field_names])
+
+        return response
+
+    def get(self, request, *args, **kwargs):
+        queryset = LawSchool.objects.all()
+        opts = queryset.model._meta
+        field_names = [field.name for field in opts.fields]
+        return self.render_to_csv(field_names, queryset)
